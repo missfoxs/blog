@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>blog</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- 存放字模板自己的样式文件 -->
+    {{block 'link'}}
+    {{/block}}
+</head>
+<body>
+    {{include './header.html'}}
+    {{block 'content'}}
+        <h1>default content</h1>
+    {{/block}}
+
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- 存放字模板自己的脚本文件 -->
+    {{block 'script'}}
+    {{/block}}
+</body>
+</html>
