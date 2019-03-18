@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>register</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <form action="post" id="registerForm">
+        <label for="email">email</label><br>
+        <input type="text" id="email" placeholder="email address" name="email">
+        <br>
+        <label for="username">username</label><br>
+        <input type="text" id="username" placeholder="username" name="username">
+        <br>
+        <label for="password">password</label><br>
+        <input type="text" id="password" placeholder="password" name="password">
+        <br>
+        <input type="submit" value="register" id="registerBut">
+    </form>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#registerBut').on('click', function(e){
+                e.preventDefault();
+                // 序列化表单
+                let data = $("#registerForm").serialize();
+                console.log(data);
+                $.ajax({
+                    url: '/register',
+                    type: 'post',
+                    data: data,
+                    success: function(data){
+                        console.log('success: ' + data);
+                    },
+                    error: function(err){
+                        console.log('error: ' + err);
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+</html>
