@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <form action="post" id="registerForm">
+    <!-- 表单具有默认的同步提交方法，在提交时浏览器锁死，并且会将服务器返回的东西直接渲染到页面上，覆盖原先的页面，因此需要使用ajax -->
+    <form action="/register" method="post" id="registerForm">
         <label for="email">email</label><br>
         <input type="text" id="email" placeholder="email address" name="email">
         <br>
-        <label for="username">username</label><br>
-        <input type="text" id="username" placeholder="username" name="username">
+        <label for="nickname">nickname</label><br>
+        <input type="text" id="nickname" placeholder="nickname" name="nickname">
         <br>
         <label for="password">password</label><br>
         <input type="text" id="password" placeholder="password" name="password">
@@ -32,8 +33,16 @@
                     url: '/register',
                     type: 'post',
                     data: data,
+                    dataType: 'json',
                     success: function(data){
-                        console.log('success: ' + data);
+                        if(data.code === 0){
+                            window.alert('注册成功');
+                            window.location.href = '/login'
+                        }else if(data.code === 1){
+                            window.alert('邮箱或用户名已被注册')
+                        }else if(data.code === 500){
+                            window.alert('服务器忙')
+                        }
                     },
                     error: function(err){
                         console.log('error: ' + err);
