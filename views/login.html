@@ -1,4 +1,45 @@
-{{extend './layout.html'}}
-{{block 'content'}}
-<h1>login page</h1>
-{{/block}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <form action="/login" id="loginForm" method="POST">
+        <label for="email"></label>
+        <input type="text" id="email" name="email"><br>
+        <label for="password"></label>
+        <input type="password" id="password" name="password"><br>
+        <input type="submit" value="login" id="loginBtn">
+    </form>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#loginBtn').on('click', function(e){
+                e.preventDefault();
+                console.log('login');
+                let data = $('#loginForm').serialize();
+                console.log(data);
+                $.ajax({
+                    url: '/login',
+                    type: 'POST',
+                    data: data,
+                    dataType: 'json',
+                    success: function(res){
+                        console.log("success: " + res);
+                        if(res.code === 0){
+                            window.alert('登录成功')
+                        }
+                    },
+                    error: function(err){
+                        console.log(err)
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+</html>

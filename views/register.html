@@ -37,7 +37,7 @@
                     success: function(data){
                         if(data.code === 0){
                             window.alert('注册成功');
-                            window.location.href = '/login'
+                            window.location.href = '/'
                         }else if(data.code === 1){
                             window.alert('邮箱或用户名已被注册')
                         }else if(data.code === 500){

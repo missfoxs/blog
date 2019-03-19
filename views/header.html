@@ -1,1 +1,22 @@
-<h2>header</h2>
+<!-- <h2>header</h2> -->
+<div class="header">
+    {{ if user }}
+        <div class="userInfo">
+            <label for="currentUser">当前用户</label>
+            <span>{{user &&  user.nickname}}</span>
+        </div>
+    {{ else }}
+        <div>
+            <button onclick='login()'>登录</button>
+            <button onclick='register()'>注册</button>
+        </div>
+    {{ /if }}
+</div>
+<script>
+    function login(e){
+        window.location.href = '/login';
+    }
+    function register(){
+        window.location.href = '/register';
+    }
+</script>
