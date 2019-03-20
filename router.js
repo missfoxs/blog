@@ -3,8 +3,9 @@ let router = express.Router();
 const User = require('./models/user');
 
 // 加密密码模块
-const crypto = require('crypto');
-const hash = crypto.createHash('md5');
+// const crypto = require('crypto');
+// const hash = crypto.createHash('md5');
+const md5 = require('md5');
 
 router.get('/', (req,res)=>{
     console.log("/ " + JSON.stringify(req.session.user));
@@ -23,7 +24,8 @@ router.post('/login', (req,res)=>{
     // hash.update(body.password);
     // body.password = hash.digest('hex');
     // console.log('login: password' + body.password);
-    User.findOne({email: body.email, password: body.password}, function(err, user){
+    let password = md5(md5(body.password));
+    User.findOne({email: body.email, password: password}, function(err, user){
         if(err){
             return res.status(500).json({code: 500, msg: 'server error'})
         }
@@ -66,6 +68,7 @@ router.post('/register', (req,res)=>{
         // hash.update(user.password);
         // user.password = hash.digest('hex');
         // console.log('register.password: ' + user.password);
+        user.password = md5(md5(user.password));
         user.save(function(err, user){
             if(err){
                 return res.status(500).send(JSON.stringify({code: 500, msg: 'server error'}))
