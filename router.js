@@ -20,16 +20,23 @@ router.get('/login', (req,res)=>{
 router.post('/login', (req,res)=>{
     console.log(req.body);
     let body = req.body;
-    hash.update(body.password);
-    body.password = hash.digest('hex');
-    console.log('login: password' + body.password);
-    User.findOne({email: body.email, password: body.password}, function(err, res){
+    // hash.update(body.password);
+    // body.password = hash.digest('hex');
+    // console.log('login: password' + body.password);
+    User.findOne({email: body.email, password: body.password}, function(err, user){
         if(err){
             return res.status(500).json({code: 500, msg: 'server error'})
         }
-        if(res){
-            return res.status(200).json({code: 0, mag: 'login success'})
+        if(!user){
+            return res.status(200).json({
+                code: 1,
+                msg: 'email or password is invalid'
+            })
         }
+
+        // 用户存在，登录成功，记录登录状态
+        req.session.user = user;
+        return res.status(200).json({code: 0, mag: 'login success'})
     })
 })
 
@@ -73,6 +80,14 @@ router.post('/register', (req,res)=>{
             // res.redirect('/')
         })
     })
+})
+
+// 退出登录
+router.get('/logout', (req,res)=>{
+    // 清除登录状态
+    req.session.user = null;
+    // a标签是同步请求，可以直接在服务器端重定向
+    res.redirect('/');
 })
 
 module.exports = router
