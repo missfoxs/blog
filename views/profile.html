@@ -1,0 +1,19 @@
+{{ extend './layout.html' }}
+
+{{ block 'content' }}
+
+<h2>profile</h2>
+
+{{ if user}}
+    <div>{{user.nickname}}</div>
+    <div>{{user.email}}</div>
+    <div class="avatar">
+         <img src= {{user.avator}}>
+    </div>
+    <div><button><a href="/editProfile">修改个人信息</a></button></div>
+{{ /if }}
+
+{{ /block }}
+
+{{ block 'script'}}
+{{ /block }}

@@ -93,4 +93,43 @@ router.get('/logout', (req,res)=>{
     res.redirect('/');
 })
 
+
+// 个人中心
+router.get('/profile', (req, res)=>{
+    res.render('profile.html', {
+        user: req.session.user
+    });
+})
+
+// 修改个人中心
+router.get('/editProfile', (req, res)=>{
+    res.render('editProfile.html', {
+        user: req.session.user
+    })
+})
+
+router.post('/editProfile', (req, res)=>{
+    if(!req.session.user){
+        return res.status(200).json({
+            code: 1,
+            msg: 'need login'
+        })
+    }
+    let queryParame = {email: req.body.email};
+    //let user = new User(req.body);
+    let body = req.body;
+    User.findOneAndUpdate(queryParame,{$set: {email: body.email, nickname: body.nickname}}, (err, resUser)=>{
+        if(err){
+            return res.status(500).json({
+                code: 500,
+                msg: 'server error1'
+            })
+        }
+        console.log(JSON.stringify(resUser));
+        res.status(200).json({
+            code: 0,
+            msg: 'modify profile success!'
+        })
+    })
+})
 module.exports = router

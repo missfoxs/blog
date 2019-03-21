@@ -1,15 +1,16 @@
 <!-- <h2>header</h2> -->
 <div class="header">
     {{ if user }}
-        <div class="userInfo">
+        <div class="dropdown">
             <label for="currentUser">当前用户</label>
             <span>{{user &&  user.nickname}}</span>
+            <a href="/profile">个人中心</a>
             <a href="/logout">退出</a>
         </div>
     {{ else }}
         <div>
-            <button onclick='login()'>登录</button>
-            <button onclick='register()'>注册</button>
+            <button type="button" onclick="login()" class="btn btn-primary btn-sm">登录</button>
+            <button type="button" onclick="register()" class="btn btn-info btn-sm">注册</button>
         </div>
     {{ /if }}
 </div>

@@ -1,0 +1,47 @@
+{{ extend './layout.html' }}
+
+{{ block 'content' }}
+
+<h2>profile</h2>
+
+{{ if user}}
+    <form id="profileForm">
+        <label for="">email</label>
+        <input type="text" name="email" value={{user.email}}>
+        <br>
+        <label for="">nickname</label>
+        <input type="text" name="nickname" value={{user.nickname}}>
+        <br>
+    </form>
+    <div class="avatar" onclick="uploadAvatar()">
+         <img src= {{user.avator}}>
+    </div>
+    <button onclick="editProfile()">确认</button>
+{{ /if }}
+
+{{ /block }}
+
+{{ block 'script'}}
+<script>
+    function uploadAvatar(){
+        console.log('上传图片');
+    }
+    function editProfile(){
+        let data = $('#profileForm').serialize();
+        console.log(data);
+        $.ajax({
+            url: '/editProfile',
+            type: 'POST',
+            dataType: 'json',
+            data,
+            success: function(data){
+                if(data.code === 0){
+                    window.alert('修改成功')
+                }else if(data.code === 500){
+                    window.alert('服务器忙，请稍后再试！');
+                }
+            }
+        })
+    }
+</script>
+{{ /block }}

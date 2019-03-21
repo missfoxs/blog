@@ -30,7 +30,6 @@
                     dataType: 'json',
                     success: function(res){
                         if(res.code === 0){
-                            window.alert('登录成功');
                             window.location.href = '/'
                         }else if(res.code===1){
                             window.alert('邮箱或者密码错误')
