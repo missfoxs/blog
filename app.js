@@ -28,4 +28,18 @@ app.use('/node_modules/', express.static(path.join(__dirname, './node_modules/')
 app.engine('html', require('express-art-template'));
 app.set('views', path.join(__dirname, './views/'));
 
+// 配置出404中间件
+app.use((req,res,next)=>{
+    res.send('404')
+})
+
+// 统一服务器错误返回的中间件
+// 四个参数必须写全
+app.use((err, req, res, next)=>{
+    res.status(500).json({
+        code: 500,
+        msg: err
+    })
+})
+
 app.listen(5000);

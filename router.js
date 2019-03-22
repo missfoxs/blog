@@ -8,7 +8,6 @@ const User = require('./models/user');
 const md5 = require('md5');
 
 router.get('/', (req,res)=>{
-    console.log("/ " + JSON.stringify(req.session.user));
     res.render('index.html',{
         user: req.session.user
     });
@@ -18,16 +17,12 @@ router.get('/login', (req,res)=>{
     res.render('login.html');
 })
 
-router.post('/login', (req,res)=>{
-    console.log(req.body);
+router.post('/login', (req,res, next)=>{
     let body = req.body;
-    // hash.update(body.password);
-    // body.password = hash.digest('hex');
-    // console.log('login: password' + body.password);
     let password = md5(md5(body.password));
     User.findOne({email: body.email, password: password}, function(err, user){
         if(err){
-            return res.status(500).json({code: 500, msg: 'server error'})
+            return next('serve error');
         }
         if(!user){
             return res.status(200).json({
@@ -47,9 +42,8 @@ router.get('/register', (req,res)=>{
     res.render('register.html');
 })
 
-router.post('/register', (req,res)=>{
+router.post('/register', (req,res,next)=>{
     let body = req.body;
-    console.log(body);
     // 使用 或 语句查询邮箱或者用户名是否已被注册
     User.findOne({
         $or: [
@@ -58,20 +52,18 @@ router.post('/register', (req,res)=>{
         ]
     }, function(err, data){
         if(err){
-            return res.status(500).send(JSON.stringify({code: 500, msg: 'server error'}))
+            //return res.status(500).send(JSON.stringify({code: 500, msg: 'server error'}))
+            return next('server error')
         }
         if(data){
             return res.status(200).send(JSON.stringify({code: 1, msg: '用户名或邮箱已被注册'}))
         }
 
         let user = new User(body);
-        // hash.update(user.password);
-        // user.password = hash.digest('hex');
-        // console.log('register.password: ' + user.password);
         user.password = md5(md5(user.password));
         user.save(function(err, user){
             if(err){
-                return res.status(500).send(JSON.stringify({code: 500, msg: 'server error'}))
+                return next('server error')
             }
             // 使用session存储当前用户
             req.session.user = user;
@@ -108,7 +100,7 @@ router.get('/editProfile', (req, res)=>{
     })
 })
 
-router.post('/editProfile', (req, res)=>{
+router.post('/editProfile', (req, res, next)=>{
     if(!req.session.user){
         return res.status(200).json({
             code: 1,
@@ -116,16 +108,12 @@ router.post('/editProfile', (req, res)=>{
         })
     }
     let queryParame = {email: req.body.email};
-    //let user = new User(req.body);
     let body = req.body;
-    User.findOneAndUpdate(queryParame,{$set: {email: body.email, nickname: body.nickname}}, (err, resUser)=>{
+    User.findOneAndUpdate(queryParame,{$set: {email: body.email, nickname: body.nickname}}, {new: true}, (err, resUser)=>{
         if(err){
-            return res.status(500).json({
-                code: 500,
-                msg: 'server error1'
-            })
+            return next('server error1')
         }
-        console.log(JSON.stringify(resUser));
+        req.session.user = resUser;
         res.status(200).json({
             code: 0,
             msg: 'modify profile success!'

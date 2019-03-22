@@ -36,7 +36,8 @@
             data,
             success: function(data){
                 if(data.code === 0){
-                    window.alert('修改成功')
+                    window.alert('修改成功');
+                    window.location.href = 'profile'
                 }else if(data.code === 500){
                     window.alert('服务器忙，请稍后再试！');
                 }
