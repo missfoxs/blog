@@ -150,9 +150,18 @@ router.post('/uploadAvatar', (req, res, next) => {
                     console.log(err);
                     return next('write file error')
                 }
-                res.status(200).json({
-                    code: 0,
-                    msg: 'update avator success'
+                // 将文件路径存在数据库中
+                let queryParame = {email: req.session.user.email};
+                console.log(queryParame);
+                let avatar = 'public/avator/' + req.session.user.nickname + '/' + oName;
+                User.findOneAndUpdate(queryParame, {$set: {avatar}}, {new: true},(err, insertRet)=>{
+                    if(err){
+                        console.log(err);
+                        return next('server error')
+                    }
+                    console.log(insertRet)
+                    req.session.user.avatar = insertRet.avatar;
+                    res.redirect('/editProfile')
                 })
             })
         })
