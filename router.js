@@ -102,10 +102,11 @@ router.get('/editProfile', (req, res)=>{
 
 router.post('/editProfile', (req, res, next)=>{
     if(!req.session.user){
-        return res.status(200).json({
-            code: 1,
-            msg: 'need login'
-        })
+        // return res.status(200).json({
+        //     code: 1,
+        //     msg: 'need login'
+        // })
+        res.redirect('/login')
     }
     let queryParame = {email: req.body.email};
     let body = req.body;
@@ -119,5 +120,11 @@ router.post('/editProfile', (req, res, next)=>{
             msg: 'modify profile success!'
         })
     })
+})
+// 上传头像
+router.post('/uploadAvatar', (req, res) => {
+    console.log("file: " + JSON.stringify(req.file));
+    console.log('body: ' + JSON.stringify(req.body));
+    res.send('上传成功');
 })
 module.exports = router

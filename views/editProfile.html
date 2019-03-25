@@ -1,7 +1,10 @@
 {{ extend './layout.html' }}
 
-{{ block 'content' }}
+{{ block 'link' }}
+<link rel="stylesheet" href="../public/css/editProfile.css">
+{{ /block }}
 
+{{ block 'content' }}
 <h2>profile</h2>
 
 {{ if user}}
@@ -13,12 +16,21 @@
         <input type="text" name="nickname" value={{user.nickname}}>
         <br>
     </form>
-    <div class="avatar" onclick="uploadAvatar()">
+    <div class="avatar">
          <img src= {{user.avator}}>
     </div>
-    <button onclick="editProfile()">确认</button>
+    <!-- <form action="/uploadAvatar" method="POST" enctype="multipart/form-data">
+        <input type="file" name="fileUpload" id="fail">
+        <input type="submit" value="上传图片">
+    </form> -->
+    <form action="/uploadAvatar" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" size="100" />
+        <br />
+        <input type="text" name="test">
+        <input type="submit" value="上传文件" />
+    </form>
+    <button onclick="editProfile()">确认修改</button>
 {{ /if }}
-
 {{ /block }}
 
 {{ block 'script'}}

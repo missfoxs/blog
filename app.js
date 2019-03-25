@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const router = require('./router');
 const session = require('express-session');
+const multer = require('multer');
 
 let app = express();
 const bodyParser = require('body-parser');
@@ -18,6 +19,9 @@ app.use(session({
     // 如果为true,无论是否使用session，都默认给客户端发送一个session-id
     saveUninitialized: true
 }))
+
+// 处理图片
+app.use(multer({ dest: './public/img'}).single('image'));
 
 app.use(router);
 
@@ -42,4 +46,6 @@ app.use((err, req, res, next)=>{
     })
 })
 
-app.listen(5000);
+app.listen(5000, function(){
+    console.log('server running at port 5000')
+});
