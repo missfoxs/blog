@@ -1,6 +1,9 @@
+const path = require('path');
+const fs = require('fs');
 const express = require('express');
 let router = express.Router();
 const User = require('./models/user');
+const util = require('./public/js/util');
 
 // 加密密码模块
 // const crypto = require('crypto');
@@ -102,10 +105,7 @@ router.get('/editProfile', (req, res)=>{
 
 router.post('/editProfile', (req, res, next)=>{
     if(!req.session.user){
-        // return res.status(200).json({
-        //     code: 1,
-        //     msg: 'need login'
-        // })
+        console.log(req.session.user.nickname);
         res.redirect('/login')
     }
     let queryParame = {email: req.body.email};
@@ -122,9 +122,41 @@ router.post('/editProfile', (req, res, next)=>{
     })
 })
 // 上传头像
-router.post('/uploadAvatar', (req, res) => {
-    console.log("file: " + JSON.stringify(req.file));
-    console.log('body: ' + JSON.stringify(req.body));
-    res.send('上传成功');
+router.post('/uploadAvatar', (req, res, next) => {
+    let fName = req.file.filename;
+    let oName = req.file.originalname;
+    let fpath = path.join(__dirname, './public/img', fName);
+    // 以用户名创建目录
+    let targetDir = path.join(__dirname, './public/avator', req.session.user.nickname);
+    // 创建头像文件
+    let targetPath = path.join(__dirname, './public/avator', req.session.user.nickname, oName);
+    fs.readFile(fpath, (err, data)=>{
+        if(err){
+            console.log(err);
+            return next('read file error')
+        }
+        console.log(data);
+        //if()
+        // 创建目录
+        fs.mkdir(targetDir, {recursive: true}, (err)=>{
+            if(err){
+                console.log(err);
+                console.log('文件已经存在');
+                // 清空目录
+                util.clearDir(targetDir);
+            }
+            fs.writeFile(targetPath, data, (err, wirteRes)=>{
+                if(err){
+                    console.log(err);
+                    return next('write file error')
+                }
+                res.status(200).json({
+                    code: 0,
+                    msg: 'update avator success'
+                })
+            })
+        })
+    })
+    //res.send('上传成功');
 })
 module.exports = router
