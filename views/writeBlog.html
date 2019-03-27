@@ -29,7 +29,10 @@ function createBlog(){
         dataType: 'json',
         data,
         success: (res)=>{
-            console.log(res);
+            if(res.code === 0){
+                console.log('创建成功')
+                window.location.href = '/profile';
+            }
         }
     })
 }

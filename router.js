@@ -91,13 +91,24 @@ router.get('/logout', (req,res)=>{
 
 
 // 个人中心
-router.get('/profile', (req, res)=>{
+router.get('/profile', (req, res, next)=>{
     if(!req.session.user){
         return res.redirect('/login')
     }
-    res.render('profile.html', {
-        user: req.session.user
-    });
+    // 跳转到个人中心后需要获取当前用户发表过的文章
+    console.log('user articles: ' + req.session.user.articles[0]);
+    Article.find({$or: [{_id: req.session.user.articles[0]}]}, (err, findRes)=>{
+        if(err){
+            console.log(err);
+            return next('find article error')
+        }
+        console.log("findRes " + findRes);
+        req.session.articles = findRes;
+        res.render('profile.html', {
+            user: req.session.user,
+            articles: req.session.articles
+        });
+    })
 })
 
 // 修改个人中心
@@ -187,17 +198,38 @@ router.get('/writeBlog',(req, res, next)=>{
 })
 
 router.post('/writeBlog', (req, res, next)=>{
-    console.log('blog: ' + JSON.stringify(req.body));
     let article = new Article(req.body);
+    // 单独保存文章在数据库中
     article.save(function(err, saveRes){
         if(err){
-            console.log(err);
-            next('create article fail')
+            return next('create article fail')
         }
         console.log(saveRes);
-        res.status(200).json({
-            code: 0,
-            msg: 'create article success'
+        let queryParame = {email: req.session.user.email};
+        let user = null;
+        // 查找当前登录用户
+        User.findOne(queryParame, (err, findRes)=>{
+            if(err){
+                console.log(err);
+                return next('find user failed')
+            }
+            console.log(" currentUser: " + findRes);
+            user = findRes;
+            console.log('saveRes: ' + saveRes._id);
+            user.articles.push(saveRes._id);
+            // 将保存好的文章的id添加到当前用户的articles属性中
+            User.findOneAndUpdate(queryParame, {$set: {articles: user.articles}}, {new: true}, (err, updateRes)=>{
+                if(err){
+                    console.log(err);
+                    return next('update user failed')
+                }
+                console.log("updateRes: " + updateRes);
+                req.session.user = updateRes;
+                res.status(200).json({
+                    code: 0,
+                    msg: 'create article success'
+                })
+            })
         })
     })
 })

@@ -47,6 +47,9 @@ const userSchema = new mongoose.Schema({
         // 是否可以评论
         enum: [0,1,2],
         default: 0
+    },
+    articles: {
+        type: Array
     }
 })
 

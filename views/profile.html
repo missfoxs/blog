@@ -17,6 +17,14 @@
     <div><button><a href="/editProfile">修改个人信息</a></button></div>
 {{ /if }}
 
+{{ if articles }}
+    {{each articles}}
+        <!-- {{$index}} {{$value}} -->
+        <div><span>title: </span>{{$value.title}}</div>
+        <div><span>content: </span>{{$value.content}}</div>
+    {{/each}}
+{{ /if }}
+
 {{ /block }}
 
 {{ block 'script'}}
