@@ -23,6 +23,7 @@ app.use(session({
 // 处理图片
 app.use(multer({ dest: './public/img'}).single('image'));
 
+//app.use(db);
 app.use(router);
 
 app.use('/public/', express.static(path.join(__dirname, './public/')))

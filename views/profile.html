@@ -1,5 +1,9 @@
 {{ extend './layout.html' }}
 
+{{block 'link'}}
+<link rel="stylesheet" href="../public/css/profile.css">
+{{/block}}
+
 {{ block 'content' }}
 
 <h2>profile</h2>
@@ -8,7 +12,7 @@
     <div>{{user.nickname}}</div>
     <div>{{user.email}}</div>
     <div class="avatar">
-         <img src= {{user.avator}}>
+         <img src= {{user.avatar}}>
     </div>
     <div><button><a href="/editProfile">修改个人信息</a></button></div>
 {{ /if }}

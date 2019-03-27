@@ -3,6 +3,7 @@ const fs = require('fs');
 const express = require('express');
 let router = express.Router();
 const User = require('./models/user');
+const Article = require('./models/article');
 const util = require('./public/js/util');
 
 // 加密密码模块
@@ -91,6 +92,9 @@ router.get('/logout', (req,res)=>{
 
 // 个人中心
 router.get('/profile', (req, res)=>{
+    if(!req.session.user){
+        return res.redirect('/login')
+    }
     res.render('profile.html', {
         user: req.session.user
     });
@@ -98,6 +102,9 @@ router.get('/profile', (req, res)=>{
 
 // 修改个人中心
 router.get('/editProfile', (req, res)=>{
+    if(!req.session.user){
+        return res.redirect('/login')
+    }
     res.render('editProfile.html', {
         user: req.session.user
     })
@@ -167,5 +174,31 @@ router.post('/uploadAvatar', (req, res, next) => {
         })
     })
     //res.send('上传成功');
+})
+
+// 创建博客
+router.get('/writeBlog',(req, res, next)=>{
+    if(!req.session.user){
+        return res.redirect('/login');
+    }
+    res.render('writeBlog.html', {
+        user: req.session.user
+    })
+})
+
+router.post('/writeBlog', (req, res, next)=>{
+    console.log('blog: ' + JSON.stringify(req.body));
+    let article = new Article(req.body);
+    article.save(function(err, saveRes){
+        if(err){
+            console.log(err);
+            next('create article fail')
+        }
+        console.log(saveRes);
+        res.status(200).json({
+            code: 0,
+            msg: 'create article success'
+        })
+    })
 })
 module.exports = router

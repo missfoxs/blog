@@ -1,0 +1,37 @@
+{{extend './layout.html'}}
+
+{{ block 'link' }}
+<link rel="stylesheet" href="../public/css/editProfile.css">
+{{ /block }}
+
+{{block 'content'}}
+<label for="title">title</label>
+<input type="text" id="title">
+<br>
+<label for="content"></label>
+<textarea id="content" cols="30" rows="10"></textarea>
+<button onclick="createBlog()">确认</button>
+{{/block}}
+
+{{block 'script'}}
+<script>
+function createBlog(){
+    let title = $('#title').val();
+    let content = $('#content').val();
+    let data = {
+        title,
+        content
+    }
+    console.log(JSON.stringify(data));
+    $.ajax({
+        url: '/writeBlog',
+        type: 'post',
+        dataType: 'json',
+        data,
+        success: (res)=>{
+            console.log(res);
+        }
+    })
+}
+</script>
+{{/block}}

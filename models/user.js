@@ -1,9 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require('../db');
 
-mongoose.connect('mongodb://127.0.0.1:27017/test', {useNewUrlParser: true});
-const Schema = mongoose.Schema;
-
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true
