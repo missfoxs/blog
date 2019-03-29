@@ -21,7 +21,7 @@
     {{each articles}}
         <!-- {{$index}} {{$value}} -->
         <div><span>title: </span>{{$value.title}}</div>
-        <div><span>content: </span>{{$value.content}}</div>
+        <div><span>content: </span>{{#$value.content}}</div>
     {{/each}}
 {{ /if }}
 

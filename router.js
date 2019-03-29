@@ -215,38 +215,5 @@ router.post('/writeBlog', (req, res, next)=>{
             msg: 'save article success!'
         })
     })
-    // 单独保存文章在数据库中
-    // article.save(function(err, saveRes){
-    //     if(err){
-    //         return next('create article fail')
-    //     }
-    //     console.log(saveRes);
-    //     let queryParame = {email: req.session.user.email};
-    //     let user = null;
-    //     // 查找当前登录用户
-    //     User.findOne(queryParame, (err, findRes)=>{
-    //         if(err){
-    //             console.log(err);
-    //             return next('find user failed')
-    //         }
-    //         console.log(" currentUser: " + findRes);
-    //         user = findRes;
-    //         console.log('saveRes: ' + saveRes._id);
-    //         user.articles.push(saveRes._id);
-    //         // 将保存好的文章的id添加到当前用户的articles属性中
-    //         User.findOneAndUpdate(queryParame, {$set: {articles: user.articles}}, {new: true}, (err, updateRes)=>{
-    //             if(err){
-    //                 console.log(err);
-    //                 return next('update user failed')
-    //             }
-    //             console.log("updateRes: " + updateRes);
-    //             req.session.user = updateRes;
-    //             res.status(200).json({
-    //                 code: 0,
-    //                 msg: 'create article success'
-    //             })
-    //         })
-    //     })
-    // })
 })
 module.exports = router

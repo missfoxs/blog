@@ -1,40 +1,53 @@
 {{extend './layout.html'}}
 
 {{ block 'link' }}
-<link rel="stylesheet" href="../public/css/editProfile.css">
+    <link rel="stylesheet" href="../public/css/editProfile.css">
 {{ /block }}
 
 {{block 'content'}}
-<label for="title">title</label>
-<input type="text" id="title">
-<br>
-<label for="content"></label>
-<textarea id="content" cols="30" rows="10"></textarea>
-<button onclick="createBlog()">确认</button>
+    <label for="title">title</label>
+    <input type="text" id="title">
+    <br>
+    <label for="content"></label>
+    <textarea id="content" onkeydown="convert()" cols="30" rows="10"></textarea>
+    <button onclick="createBlog()">确认</button>
+    <button onclick="goBack()">返回</button>
 {{/block}}
 
 {{block 'script'}}
+<script src="../public/js/showdown.min.js"></script>
 <script>
-function createBlog(){
-    let title = $('#title').val();
-    let content = $('#content').val();
-    let data = {
-        title,
-        content
+    let html = '';
+    
+    function convert(){
+        let text = $('#content').val();
+        let converter = new showdown.Converter();
+        html = converter.makeHtml(text);
     }
-    console.log(JSON.stringify(data));
-    $.ajax({
-        url: '/writeBlog',
-        type: 'post',
-        dataType: 'json',
-        data,
-        success: (res)=>{
-            if(res.code === 0){
-                console.log('创建成功')
-                window.location.href = '/profile';
-            }
+
+    function createBlog(){
+        let title = $('#title').val();
+        console.log(html);
+        let content = html;
+        let data = {
+            title,
+            content
         }
-    })
-}
+        $.ajax({
+            url: '/writeBlog',
+            type: 'post',
+            dataType: 'json',
+            data,
+            success: (res)=>{
+                if(res.code === 0){
+                    console.log('创建成功')
+                    window.location.href = '/profile';
+                }
+            }
+        })
+    }
+    function goBack(){
+        window.location.href = '/profile'
+    }
 </script>
 {{/block}}
