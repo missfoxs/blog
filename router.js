@@ -96,8 +96,8 @@ router.get('/profile', (req, res, next)=>{
         return res.redirect('/login')
     }
     // 跳转到个人中心后需要获取当前用户发表过的文章
-    console.log('user articles: ' + req.session.user.articles[0]);
-    Article.find({$or: [{_id: req.session.user.articles[0]}]}, (err, findRes)=>{
+    //console.log('user articles: ' + req.session.user.articles[0]);
+    Article.find({userId: req.session.user._id}, (err, findRes)=>{
         if(err){
             console.log(err);
             return next('find article error')
@@ -198,39 +198,55 @@ router.get('/writeBlog',(req, res, next)=>{
 })
 
 router.post('/writeBlog', (req, res, next)=>{
+    req.body.userId = req.session.user._id;
     let article = new Article(req.body);
-    // 单独保存文章在数据库中
+    // let user = req.session.user;
+    // console.log('currentUserId: ' + user._id);
+    // article.userId = req.session.user_id;
+    console.log(JSON.stringify(article));
     article.save(function(err, saveRes){
         if(err){
+            console.log(err);
             return next('create article fail')
         }
-        console.log(saveRes);
-        let queryParame = {email: req.session.user.email};
-        let user = null;
-        // 查找当前登录用户
-        User.findOne(queryParame, (err, findRes)=>{
-            if(err){
-                console.log(err);
-                return next('find user failed')
-            }
-            console.log(" currentUser: " + findRes);
-            user = findRes;
-            console.log('saveRes: ' + saveRes._id);
-            user.articles.push(saveRes._id);
-            // 将保存好的文章的id添加到当前用户的articles属性中
-            User.findOneAndUpdate(queryParame, {$set: {articles: user.articles}}, {new: true}, (err, updateRes)=>{
-                if(err){
-                    console.log(err);
-                    return next('update user failed')
-                }
-                console.log("updateRes: " + updateRes);
-                req.session.user = updateRes;
-                res.status(200).json({
-                    code: 0,
-                    msg: 'create article success'
-                })
-            })
+        console.log('save Article res: ' +saveRes);
+        res.status(200).json({
+            code: 0,
+            msg: 'save article success!'
         })
     })
+    // 单独保存文章在数据库中
+    // article.save(function(err, saveRes){
+    //     if(err){
+    //         return next('create article fail')
+    //     }
+    //     console.log(saveRes);
+    //     let queryParame = {email: req.session.user.email};
+    //     let user = null;
+    //     // 查找当前登录用户
+    //     User.findOne(queryParame, (err, findRes)=>{
+    //         if(err){
+    //             console.log(err);
+    //             return next('find user failed')
+    //         }
+    //         console.log(" currentUser: " + findRes);
+    //         user = findRes;
+    //         console.log('saveRes: ' + saveRes._id);
+    //         user.articles.push(saveRes._id);
+    //         // 将保存好的文章的id添加到当前用户的articles属性中
+    //         User.findOneAndUpdate(queryParame, {$set: {articles: user.articles}}, {new: true}, (err, updateRes)=>{
+    //             if(err){
+    //                 console.log(err);
+    //                 return next('update user failed')
+    //             }
+    //             console.log("updateRes: " + updateRes);
+    //             req.session.user = updateRes;
+    //             res.status(200).json({
+    //                 code: 0,
+    //                 msg: 'create article success'
+    //             })
+    //         })
+    //     })
+    // })
 })
 module.exports = router
