@@ -1,0 +1,134 @@
+// 重置样式
+html, body, div, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ol, ul, li, fieldset, form, label, input, legend, table, caption, tbody, tfoot, thead, tr, th, td, textarea, article, aside, audio, canvas, figure, footer, header, mark, menu, nav, section, time, video { margin: 0; padding: 0; }
+h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: normal }
+article, aside, dialog, figure, footer, header, hgroup, nav, section, blockquote { display: block; }
+ul, ol { list-style: none; }
+img { border: 0 none; vertical-align: top; }
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after, q:before, q:after { content: none; }
+table { border-collapse: collapse; border-spacing: 0; }
+strong, em, i { font-style: normal; font-weight: normal; }
+ins { text-decoration: underline; }
+del { text-decoration: line-through; }
+mark { background: none; }
+input::-ms-clear { display: none !important; }
+body { font: 12px/1.5 \5FAE\8F6F\96C5\9ED1, \5B8B\4F53, "Hiragino Sans GB", STHeiti, "WenQuanYi Micro Hei", "Droid Sans Fallback", SimSun, sans-serif; background: #fff; }
+a { text-decoration: none; color: #333; }
+a:hover { text-decoration: underline; }
+.header{
+    height: 50px;
+    background-color: #abcdef;
+    line-height: 50px;
+    margin: 0 auto;
+    .header-login{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        .logo{
+            img{
+
+            }
+        }
+        .dropdown{
+            img{
+                width: 40px;
+                border-radius: 50%;
+                position: relative;
+                top: 5px;
+                cursor: pointer;
+            }
+            ul{
+                display: none;
+                border: 1px solid #cccccc;
+                border-radius: 5px;
+            }
+        }
+    }
+    .header-unlogin{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        .logo{
+            img{
+
+            }
+        }
+        .btnGroup{
+
+        }
+    }
+}
+.loginPage{
+   width: 100%;
+   max-width: 920px;
+   display: block;
+   padding: 100px 20px 0; 
+   text-align: center;
+   margin: 0 auto;
+   .title{
+    font-size: 2.75rem;
+    margin-bottom: 1rem;
+   }
+   #loginForm{
+       text-align: left;
+       padding: 4rem 4rem 0;
+       label{
+           font-size: 1rem;
+           display: block;
+           text-transform: lowercase;
+       }
+       input{
+           font-size: 1.625rem;
+           font-weight: 600;
+           line-height: 1.5;
+           border: none;
+           border-bottom: .125rem solid #abcedf;
+           margin-bottom: 3rem;
+           width: 100%;
+           outline: none;
+       }
+       #loginBtn{
+            margin-top: 20px;
+            height: 50px;
+            border: none;
+            border-radius: 25px;
+       }
+   }
+}
+.registerPage{
+    width: 100%;
+    max-width: 920px;
+    display: block;
+    padding: 100px 20px 0; 
+    text-align: center;
+    margin: 0 auto;
+    .title{
+        font-size: 2.75rem;
+        margin-bottom: 1rem;
+    }
+    #registerForm{
+        text-align: left;
+        padding: 4rem 4rem 0;
+        label{
+            font-size: 1rem;
+            display: block;
+            text-transform: lowercase;
+        }
+        input{
+            font-size: 1.625rem;
+            font-weight: 600;
+            line-height: 1.5;
+            border: none;
+            border-bottom: .125rem solid #abcedf;
+            margin-bottom: 3rem;
+            width: 100%;
+            outline: none;
+        }
+        #registerBut{
+            margin-top: 20px;
+            height: 50px;
+            border: none;
+            border-radius: 25px;
+        }
+    }
+}

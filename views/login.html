@@ -6,21 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/common.css">
 </head>
 <body>
-    <form action="/login" id="loginForm" method="POST">
-        <label for="email"></label>
-        <input type="text" id="email" name="email"><br>
-        <label for="password"></label>
-        <input type="password" id="password" name="password"><br>
-        <input type="submit" value="login" id="loginBtn">
-    </form>
+    <div class="loginPage">
+        <h1 class="title">Log in</h1>
+        <form action="/login" id="loginForm" method="POST">
+            <label for="email">email</label>
+            <input type="text" id="email" onkeyup="checkIsLogin()" name="email"><br>
+            <label for="password">password</label>
+            <input type="password" id="password" onkeyup="checkIsLogin()" name="password"><br>
+            <input type="submit" value="login" id="loginBtn">
+        </form>
+    </div>
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script>
         $(document).ready(function(){
             $('#loginBtn').on('click', function(e){
                 e.preventDefault();
-                console.log('login');
+                if($('#email').val()=='' || $('#password').val()==''){
+                    window.alert('请输入所有内容再提交');
+                    return;
+                }
                 let data = $('#loginForm').serialize();
                 console.log(data);
                 $.ajax({
@@ -43,6 +50,11 @@
                 })
             })
         })
+        function checkIsLogin(){
+            if($('#email').val()!='' && $('#password').val()!=''){
+                $('#loginBtn').css('backgroundColor', '#abcdef');
+            }
+        }
     </script>
 </body>
 </html>

@@ -1,25 +1,54 @@
-<!-- <h2>header</h2> -->
+
 <div class="header">
     {{ if user }}
+    <div class="header-login">
+        <div class="logo">
+            <img src="" alt="">
+        </div>
         <div class="dropdown">
-            <label for="currentUser">当前用户</label>
+            {{ if user.avatar }}
+            <img src={{user.avatar}} onclick="showProfile()" alt="user avatar">
+            {{ else }}
+            <img src="../public/img/avatar-default.png" alt="user avatar">
+            {{ /if }}
+            <ul class="showProfile">
+                <li><a href="/profile">个人中心</a></li>
+                <li><a href="/logout">退出</a></li>
+            </ul>
+            <!-- <label for="currentUser">当前用户</label>
             <span>{{user &&  user.nickname}}</span>
             <a href="/profile">个人中心</a>
             <a href="/writeBlog">创建文章</a>
-            <a href="/logout">退出</a>
+            <a href="/logout">退出</a> -->
         </div>
+    </div>
     {{ else }}
-        <div>
-            <button type="button" onclick="login()" class="btn btn-primary btn-sm">登录</button>
-            <button type="button" onclick="register()" class="btn btn-info btn-sm">注册</button>
+        <div class="header-unlogin">
+            <div class="logo">
+                <img src="" alt="">
+            </div>
+            <div class="btnGroup">
+                <button type="button" onclick="login()" class="btn btn-primary btn-sm">登录</button>
+                <button type="button" onclick="register()" class="btn btn-info btn-sm">注册</button>
+            </div>
         </div>
     {{ /if }}
 </div>
 <script>
-    function login(e){
+    function login(){
         window.location.href = '/login';
     }
     function register(){
         window.location.href = '/register';
     }
+    function showProfile(){
+        $('.showProfile').css('display', 'block');
+    }
+
+    // $(body).on(function(){
+    //     $('.showProfile').css('display', 'none');
+    // })
+    // function hideProfile(){
+    //     $('.showProfile').css('display', 'none');
+    // }
 </script>

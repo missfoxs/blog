@@ -9,7 +9,8 @@
     <input type="text" id="title">
     <br>
     <label for="content"></label>
-    <textarea id="content" onkeydown="convert()" cols="30" rows="10"></textarea>
+    <textarea id="content" onkeydown="convert()" onblur="convert()" cols="30" rows="10"></textarea>
+    <div class="showContent"></div>
     <button onclick="createBlog()">确认</button>
     <button onclick="goBack()">返回</button>
 {{/block}}
@@ -23,6 +24,7 @@
         let text = $('#content').val();
         let converter = new showdown.Converter();
         html = converter.makeHtml(text);
+        $('.showContent').html(html);
     }
 
     function createBlog(){
