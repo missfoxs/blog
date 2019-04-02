@@ -62,16 +62,32 @@ a:hover {
     display: flex;
     justify-content: space-around;
     align-items: center; }
-    .header .header-login .dropdown img {
-      width: 40px;
-      border-radius: 50%;
-      position: relative;
-      top: 5px;
+    .header .header-login .logo {
       cursor: pointer; }
-    .header .header-login .dropdown ul {
-      display: none;
-      border: 1px solid #cccccc;
-      border-radius: 5px; }
+      .header .header-login .logo img {
+        width: 40px;
+        position: relative;
+        top: 5px; }
+    .header .header-login .dropdown {
+      position: relative; }
+      .header .header-login .dropdown .createBtn {
+        margin-left: 15px; }
+      .header .header-login .dropdown img {
+        width: 40px;
+        border-radius: 50%;
+        position: relative;
+        top: 5px;
+        cursor: pointer; }
+      .header .header-login .dropdown ul {
+        position: absolute;
+        display: none;
+        border: 1px solid #cccccc;
+        border-radius: 5px;
+        width: 60px;
+        left: -10px;
+        padding-left: 5px; }
+        .header .header-login .dropdown ul li a {
+          height: 20px; }
   .header .header-unlogin {
     display: flex;
     justify-content: space-around;

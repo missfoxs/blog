@@ -3,23 +3,19 @@
     {{ if user }}
     <div class="header-login">
         <div class="logo">
-            <img src="" alt="">
+            <img src="../public/img/avatar-default.png" onclick="returnIndex()" alt="">
         </div>
         <div class="dropdown">
             {{ if user.avatar }}
-            <img src={{user.avatar}} onclick="showProfile()" alt="user avatar">
+            <img src={{user.avatar}} onmouseover="dropdownshow()" alt="user avatar">
             {{ else }}
             <img src="../public/img/avatar-default.png" alt="user avatar">
             {{ /if }}
-            <ul class="showProfile">
+            <ul class="showProfile" onmouseout="dropdownhide()">
                 <li><a href="/profile">个人中心</a></li>
                 <li><a href="/logout">退出</a></li>
             </ul>
-            <!-- <label for="currentUser">当前用户</label>
-            <span>{{user &&  user.nickname}}</span>
-            <a href="/profile">个人中心</a>
-            <a href="/writeBlog">创建文章</a>
-            <a href="/logout">退出</a> -->
+            <button type="button" onclick="writeBlog()" class="btn btn-primary btn-sm createBtn">创建文章</button>
         </div>
     </div>
     {{ else }}
@@ -41,14 +37,17 @@
     function register(){
         window.location.href = '/register';
     }
-    function showProfile(){
+    function dropdownshow(){
         $('.showProfile').css('display', 'block');
     }
-
-    // $(body).on(function(){
-    //     $('.showProfile').css('display', 'none');
-    // })
-    // function hideProfile(){
-    //     $('.showProfile').css('display', 'none');
-    // }
+    function dropdownhide(){
+        $('.showProfile').css('display', 'none');
+    }
+    function writeBlog(){
+        window.location.href = '/writeBlog'
+    }
+    //返回首页
+    function returnIndex(){
+        window.location.href = '/';
+    }
 </script>

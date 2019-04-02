@@ -19,13 +19,16 @@
 
 {{ if articles }}
     {{each articles}}
-        <!-- {{$index}} {{$value}} -->
-        <div><span>title: </span>{{$value.title}}</div>
-        <div><span>content: </span>{{#$value.content}}</div>
+        <div onclick="handleArticle()"><span>title: </span>{{$value.title}}</div>
     {{/each}}
 {{ /if }}
 
 {{ /block }}
 
 {{ block 'script'}}
+<script>
+    function handleArticle(){
+        console.log('click article: ');
+    }
+</script>
 {{ /block }}

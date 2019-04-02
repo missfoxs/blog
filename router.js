@@ -216,4 +216,8 @@ router.post('/writeBlog', (req, res, next)=>{
         })
     })
 })
+
+router.get('/test', (req, res) => {
+    res.render('test.html')
+})
 module.exports = router
